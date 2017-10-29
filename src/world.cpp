@@ -2,6 +2,7 @@
 
 #include "SpriteNode.h"
 #include "monster.h"
+#include "room.h"
 
 #include <iostream>
 
@@ -47,6 +48,8 @@ void World::loadTextures() {
 	m_textures.load(Textures::Archer, "data/textures/Archer.png");
 	m_textures.load(Textures::Bones, "data/textures/Bones.png");
 	m_textures.load(Textures::Cobble, "data/textures/Cobble.png");
+	m_textures.load(Textures::Wall, "data/textures/Wall.png");
+	m_textures.load(Textures::Ground, "data/textures/Ground.png");
 }
 
 void World::buildScene() {
@@ -66,6 +69,24 @@ void World::buildScene() {
 	backgroundSprite->setPosition(m_worldBounds.left, m_worldBounds.top);
 
 	m_sceneLayers[BACKGROUND]->attachChild(std::move(backgroundSprite));
+
+	//Creation Room 0
+	std::unique_ptr<Room> room(new Room());
+	std::vector<std::vector<int>> arr;
+	for (int i = 0; i < 3; i++) {
+		std::vector<int> tmp;
+		for (int j = 0; j < 3; j++) {
+			if (i == 1 && j == 1) {
+				tmp.push_back(1);
+			}else {
+				tmp.push_back(0);
+			}
+		}
+		arr.push_back(tmp);
+	}
+	room->build(arr);
+	/*m_sceneLayers[TILE]->attachChild(std::move(room));*/
+
 
 	//Creation player
 	std::unique_ptr<Hero> hero(new Hero(Hero::Warrior, m_textures));

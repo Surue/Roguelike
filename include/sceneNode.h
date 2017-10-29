@@ -8,6 +8,8 @@
 #include <functional>
 #include <queue>
 
+#define SCALE 1.f/64.f
+
 class SceneNode;
 
 struct Command {

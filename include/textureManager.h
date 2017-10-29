@@ -11,7 +11,9 @@ namespace Textures {
 		Warrior,
 		Archer,
 		Bones,
-		Cobble
+		Cobble,
+		Wall,
+		Ground
 	};
 }
 
