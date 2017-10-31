@@ -84,9 +84,8 @@ void World::buildScene() {
 		}
 		arr.push_back(tmp);
 	}
-	room->build(arr);
-	/*m_sceneLayers[TILE]->attachChild(std::move(room));*/
-
+	room->build(arr, m_textures);
+	m_sceneLayers[TILE]->attachChild(std::move(room));
 
 	//Creation player
 	std::unique_ptr<Hero> hero(new Hero(Hero::Warrior, m_textures));
