@@ -1,18 +1,20 @@
 #include "..\include\entity.h"
 
-void Entity::setVelocity(sf::Vector2f velocity) {
-	m_velocity = velocity;
+#include "utility.h"
+
+void Entity::setLinearVelocity(sf::Vector2f vel) {
+	m_body->SetLinearVelocity(pixel2meter(vel));
 }
 
-void Entity::setVelocity(float velX, float velY) {
-	m_velocity.x = velX;
-	m_velocity.y = velY;
+void Entity::setLinearVelocity(b2Vec2 vel) {
+	m_body->SetLinearVelocity(vel);
 }
 
-sf::Vector2f Entity::getVelocity() const {
-	return m_velocity;
+b2Vec2 Entity::getLinearVelocity() const {
+	return m_body->GetLinearVelocity();
 }
 
 void Entity::updateCurrent(sf::Time dt) {
-	move(m_velocity * dt.asSeconds());
+	sf::Vector2f center_position = meter2pixel(m_body->GetPosition());
+	m_sprite.setPosition(center_position);
 }

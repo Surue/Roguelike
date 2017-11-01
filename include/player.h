@@ -10,7 +10,7 @@ private:
 		}
 
 		void operator() (Hero& hero, sf::Time) const {
-			hero.setVelocity(velocity);
+			hero.setLinearVelocity(velocity);
 		}
 
 		sf::Vector2f velocity;

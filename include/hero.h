@@ -10,9 +10,8 @@ public:
 	};
 private:
 	Type m_type;
-	sf::Sprite m_sprite;
 public:
-	explicit Hero(Type type, const TextureManager& textures);
+	explicit Hero(b2World&, Type type, const TextureManager& textures, sf::Vector2f spawnPoint);
 	virtual void drawCurrent(sf::RenderTarget&, sf::RenderStates) const;
 
 	unsigned int getCategory() const;

@@ -11,9 +11,8 @@ public:
 	};
 private:
 	Type m_type;
-	sf::Sprite m_sprite;
 public:
-	explicit Monster(Type type, const TextureManager& textures);
+	explicit Monster(b2World& world, Type type, const TextureManager& textures, sf::Vector2f spawnPoint);
 	virtual void drawCurrent(sf::RenderTarget&, sf::RenderStates) const;
 
 	unsigned int getCategory() const;

@@ -9,7 +9,7 @@
 World::World(sf::RenderWindow & window) 
 	: m_window(window)
 	, m_worldView(window.getDefaultView())
-	, m_spawnPosition (sf::Vector2f(100, 100))
+	, m_spawnPosition (sf::Vector2f(0, 0))
 	, m_worldBounds(0.f, 0.f, m_worldView.getSize().x, m_worldView.getSize().y) {
 	loadTextures();
 	buildScene();
@@ -19,16 +19,16 @@ World::World(sf::RenderWindow & window)
 
 void World::update(sf::Time dt) {
 	m_worldView.setCenter(m_player->getPosition());
-	m_player->setVelocity(0.f, 0.f);
+	m_player->setLinearVelocity(b2Vec2(0,0));
 
 	while (!m_commandQueue.isEmpty()) {
 		m_sceneGraph.onCommand(m_commandQueue.pop(), dt);
 	}
 
-	sf::Vector2f velocity(m_player->getVelocity());
+	b2Vec2 velocity(m_player->getLinearVelocity());
 
 	if (velocity.x != 0.f && velocity.y != 0.f) {
-		m_player->setVelocity(velocity / std::sqrt(2.f));
+		m_player->setLinearVelocity(velocity);
 	}
 
 	m_sceneGraph.update(dt);
@@ -77,31 +77,26 @@ void World::buildScene() {
 	//Creation Room 0
 	std::unique_ptr<Room> room(new Room());
 	std::vector<std::vector<int>> arr;
-	for (int i = 0; i < 3; i++) {
+	for (int i =0; i < 4; i++) {
 		std::vector<int> tmp;
-		for (int j = 0; j < 3; j++) {
+		for (int j = 0; j < 4; j++) {
 			if (i == 1 && j == 1) {
-				tmp.push_back(1);
-			}else {
 				tmp.push_back(0);
+			}else {
+				tmp.push_back(1);
 			}
 		}
 		arr.push_back(tmp);
 	}
-	room->build(arr, m_textures);
+	room->build(m_physicalWorld, arr, m_textures);
 	m_sceneLayers[TILE]->attachChild(std::move(room));
 
 	//Creation player
-	std::unique_ptr<Hero> hero(new Hero(Hero::Warrior, m_textures));
+	std::unique_ptr<Hero> hero(new Hero(m_physicalWorld, Hero::Warrior, m_textures, m_spawnPosition));
 	m_player = hero.get();
-	m_player->setPosition(m_spawnPosition);
-	m_player->setVelocity(0.f, 0.f);
 	m_sceneLayers[ENTITY]->attachChild(std::move(hero));
 
-	//m_player->setVelocity(100.f, 0.f);
-
-	std::unique_ptr<Monster> monster(new Monster(Monster::Archer, m_textures));
+	std::unique_ptr<Monster> monster(new Monster(m_physicalWorld, Monster::Archer, m_textures, sf::Vector2f(100.f, 100.f)));
 	Monster* m_monster = monster.get();
-	m_monster->setPosition(m_spawnPosition + sf::Vector2f(100.f,100.f));
 	m_sceneLayers[ENTITY]->attachChild(std::move(monster));
 }
