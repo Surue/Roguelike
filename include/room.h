@@ -35,6 +35,7 @@ class Room : public SceneNode {
 private:
 	bool isVisible;
 public:
+	explicit Room();
 	void build(std::vector<std::vector<int>>& roomTiles, const TextureManager&);
 	sf::Vector2f caseCoord2pixels(CaseCoord);
 	CaseCoord pixels2caseCoord(sf::Vector2f);

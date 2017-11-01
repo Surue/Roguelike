@@ -26,7 +26,9 @@ Tile::~Tile() {
 
 void Tile::drawCurrent(sf::RenderTarget & target, sf::RenderStates states) const {
 	target.draw(m_sprite, states);
-	//std::cout << "x = " << m_sprite.getPosition().x << ", y = " << m_sprite.getPosition().y << "\n";
+}
+
+Room::Room() {
 }
 
 void Room::build(std::vector<std::vector<int>>& roomTiles, const TextureManager& textures) {

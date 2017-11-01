@@ -22,5 +22,16 @@ LIST(APPEND Roguelike_Game_LIBRARIES
 	sfml-audio
 	sfml-network)
 	
+#Box2D
+set(BOX2D_DIR ${EXTERNAL_DIR}/Box2D)
+
+SET(BOX2D_INSTALL ON CACHE INTERNAL "")
+SET(BOX2D_BUILD_STATIC ON  CACHE INTERNAL "")
+
+add_subdirectory(${BOX2D_DIR})
+include_directories(${BOX2D_DIR}/)
+LIST(APPEND Roguelike_Game_LIBRARIES
+	Box2D)
+	
 target_link_libraries(Roguelike_Game ${Roguelike_Game_LIBRARIES})
 	

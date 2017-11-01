@@ -39,6 +39,10 @@ void World::draw() {
 	m_window.draw(m_sceneGraph);
 }
 
+void World::step(float timeStep, int velocityIteration, int positionIteration) {
+	m_physicalWorld.Step(timeStep, velocityIteration, positionIteration);
+}
+
 CommandQueue & World::getCommandQueue(){
 	return m_commandQueue;
 }
